@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: egress
+  namespace: default
+  labels:
+    k8s-app: egress
+spec:
+  selector:
+    matchLabels:
+      name: egress
+  template:
+    metadata:
+      labels:
+        name: egress
+    spec:
+      containers:
+      - image: tedezed/mig-static-egress-ip:latest
+        imagePullPolicy: Always
+        name: mig-static-egress-ip
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - while true; do bash /mig-static-egress-ip.bash; sleep 1200; done;
